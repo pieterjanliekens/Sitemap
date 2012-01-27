@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<config>
+  <modules>
+    <HKweb_Sitemap>
+      <version>0.1.0</version>
+    </HKweb_Sitemap>
+  </modules>
+  <global>
+    <models>
+      <sitemap>
+        <rewrite>
+          <sitemap>HKweb_Sitemap_Model_Sitemap</sitemap>
+        </rewrite>
+      </sitemap>
+      <sitemap_resource>
+        <rewrite>
+          <catalog_product>HKweb_Sitemap_Model_Resource_Catalog_Product</catalog_product>	
+        </rewrite>
+      </sitemap_resource>
+    </models>
+  </global>
+</config>

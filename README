@@ -1,0 +1,17 @@
+= Sitemap
+This Magento extension Sitemap extends Mage_Sitemap_Model_Sitemap to generate xml sitemaps including images. This will improve your SEO.
+
+== Compatibility
+Successfully tested on Community Edition 1.6.x
+Not tested on previous versions. But feel free to do so and inform me so this readme can be updated.
+
+== Installation
+* Download the source code and copy the files in the corresponding Magento folders; 
+* mind that you merge the directories… Do not replace the existing directories. :-)
+* no Magento existing file is modified.
+* clear cache and enjoy 
+
+After installation you can generate a new sitemap via Magento backend >> Catalog >> Google Sitemap. The XML structure of your new sitemap will include a reference to the location of a productimage. 
+
+== Copyright
+This Magento Sitemap Extension is licensed under Open Software License ("OSL") v. 3.0

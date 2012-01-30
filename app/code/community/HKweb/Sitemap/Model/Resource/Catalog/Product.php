@@ -33,7 +33,6 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @editor      HKweb <support@HKweb.nl>
  */
-include_once 'Mage/Sitemap/Model/Resource/Catalog/Product.php';
 class HKweb_Sitemap_Model_Resource_Catalog_Product extends Mage_Sitemap_Model_Resource_Catalog_Product
 {
   protected function _prepareProduct(array $productRow)

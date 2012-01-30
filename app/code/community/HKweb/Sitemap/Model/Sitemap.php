@@ -60,7 +60,7 @@ class HKweb_Sitemap_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
         $baseUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
         // HKweb change -> set mediaUrl
         $mediaUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
-        $mediaUrl = preg_replace('/https/', 'http', $mediaUrl); 
+        $mediaUrl = preg_replace('/^https/', 'http', $mediaUrl); 
 
         /**
          * Generate categories sitemap

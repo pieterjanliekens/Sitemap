@@ -53,7 +53,7 @@ class HKweb_Sitemap_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
         $io->streamOpen($this->getSitemapFilename());
 
         $io->streamWrite('<?xml version="1.0" encoding="UTF-8"?>' . "\n");
-        $io->streamWrite('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">');
+        $io->streamWrite('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:content="http://www.google.com/schemas/sitemap-content/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' . "\n");
 
         $storeId = $this->getStoreId();
         $date    = Mage::getSingleton('core/date')->gmtDate('Y-m-d');
@@ -89,12 +89,13 @@ class HKweb_Sitemap_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
         $priority   = (string)Mage::getStoreConfig('sitemap/product/priority', $storeId);
         $collection = Mage::getResourceModel('sitemap/catalog_product')->getCollection($storeId);
         foreach ($collection as $item) {
-            $xml = sprintf('<url><loc>%s</loc><image:image><image:loc>%s</image:loc></image:image><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
+            $xml = sprintf('<url><loc>%s</loc><image:image><image:loc>%s</image:loc></image:image><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority><PageMap xmlns="http://www.google.com/schemas/sitemap-pagemap/1.0"><DataObject type="thumbnail"><Attribute name="src" value="%s"/></DataObject></PageMap></url>' . "\n",
                 htmlspecialchars($baseUrl . $item->getUrl()),
                 htmlspecialchars($mediaUrl .'catalog/product'. $item->getMedia()),
                 $date,
                 $changefreq,
-                $priority
+                $priority,
+                htmlspecialchars($mediaUrl .'catalog/product'. $item->getMedia())
             );
             $io->streamWrite($xml);
         }

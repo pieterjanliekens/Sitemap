@@ -69,7 +69,7 @@ class HKweb_Sitemap_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
         $priority   = (string)Mage::getStoreConfig('sitemap/category/priority', $storeId);
         $collection = Mage::getResourceModel('sitemap/catalog_category')->getCollection($storeId);
         foreach ($collection as $item) {
-            $xml = sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
+            $xml = sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>' . "\n",
                 htmlspecialchars($baseUrl . $item->getUrl()),
                 $date,
                 $changefreq,
@@ -108,7 +108,7 @@ class HKweb_Sitemap_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
         $priority   = (string)Mage::getStoreConfig('sitemap/page/priority', $storeId);
         $collection = Mage::getResourceModel('sitemap/cms_page')->getCollection($storeId);
         foreach ($collection as $item) {
-            $xml = sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
+            $xml = sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>' . "\n",
                 htmlspecialchars($baseUrl . $item->getUrl()),
                 $date,
                 $changefreq,

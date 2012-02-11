@@ -3,7 +3,9 @@ This Magento extension Sitemap extends Mage_Sitemap_Model_Sitemap to generate xm
 
 == Compatibility
 Successfully tested on Community Edition 1.6.x
-Not tested on previous versions. But feel free to do so and inform me so this readme can be updated.
+This extension will work on Magento 1.6 and above.
+Since Magento 1.6.x the directory Model/Mysql4 is changed by Model/Resource
+To enable this extension in 1.5.x and lower you should replace every instance of Resource to Mysql4. (some with and some without capitals) Files to change are Sitemap/etc/config.xml and Sitemap/Model/Resource/Catalog/Product.php And don't forget to change the directory itself.
 
 == Installation
 * Download the source code and copy the files in the corresponding Magento folders; 

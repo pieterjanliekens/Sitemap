@@ -89,9 +89,10 @@ class Hans2103_Sitemap_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
         $priority   = (string)Mage::getStoreConfig('sitemap/product/priority', $storeId);
         $collection = Mage::getResourceModel('sitemap/catalog_product')->getCollection($storeId);
         foreach ($collection as $item) {
-            $xml = sprintf('<url><loc>%s</loc><image:image><image:loc>%s</image:loc></image:image><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority><PageMap xmlns="http://www.google.com/schemas/sitemap-pagemap/1.0"><DataObject type="thumbnail"><Attribute name="src" value="%s"/></DataObject></PageMap></url>' . "\n",
+            $xml = sprintf('<url><loc>%s</loc><image:image><image:loc>%s</image:loc><image:title>%s</image:title></image:image><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority><PageMap xmlns="http://www.google.com/schemas/sitemap-pagemap/1.0"><DataObject type="thumbnail"><Attribute name="src" value="%s"/></DataObject></PageMap></url>' . "\n",
                 htmlspecialchars($baseUrl . $item->getUrl()),
                 htmlspecialchars($mediaUrl .'catalog/product'. $item->getMedia()),
+                htmlspecialchars($item->getName()),
                 $date,
                 $changefreq,
                 $priority,

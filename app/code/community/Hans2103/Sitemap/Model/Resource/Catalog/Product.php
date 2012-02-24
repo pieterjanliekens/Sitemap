@@ -43,6 +43,8 @@ class Hans2103_Sitemap_Model_Resource_Catalog_Product extends Mage_Sitemap_Model
 
     $productMedia = Mage::getModel('catalog/product')->load($id)->getImage();
     $product->setMedia($productMedia);
+    $productName = Mage::getModel('catalog/product')->load($id)->getName();
+    $product->setName($productName);
     $productUrl = !empty($productRow['url']) ? $productRow['url']: 'catalog/product/view/id/' . $product->getId();
     $product->setUrl($productUrl);
     return $product;

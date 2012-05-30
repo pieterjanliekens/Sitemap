@@ -2,6 +2,7 @@
 This Magento extension Sitemap extends Mage_Sitemap_Model_Sitemap to generate xml sitemaps including images. This will improve your SEO.
 
 == Compatibility
+Successfully tested on Community Edition 1.7.x
 Successfully tested on Community Edition 1.6.x
 This extension will work on Magento 1.6 and above.
 Since Magento 1.6.x the directory Model/Mysql4 is changed by Model/Resource

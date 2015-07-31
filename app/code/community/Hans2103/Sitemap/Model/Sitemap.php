@@ -88,6 +88,9 @@ class Hans2103_Sitemap_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
         $collection = Mage::getResourceModel('sitemap/catalog_product')->getCollection($storeId);
         foreach ($collection as $item) {
 
+
+            $xml  = '<url><loc>'.htmlspecialchars($baseUrl . $item->getUrl()).'</loc>';
+
             $image      = Mage::getResourceModel('catalog/product')->getAttributeRawValue($item->getId(), 'image', $storeId);
             $imageLoc   = '';
             $imageTitle = '';
@@ -96,10 +99,9 @@ class Hans2103_Sitemap_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
             {
                 $imageLoc = str_replace('index.php/','',Mage::getURL('media/catalog/product').substr($image,1));
                 $imageTitle = htmlspecialchars(Mage::getResourceModel('catalog/product')->getAttributeRawValue($item->getId(), 'name', $storeId));
+                $xml .= '<image:image><image:loc>'. $imageLoc .'</image:loc><image:title>'.$imageTitle.'</image:title></image:image>';
             }
 
-            $xml  = '<url><loc>'.htmlspecialchars($baseUrl . $item->getUrl()).'</loc>';
-            $xml .= '<image:image><image:loc>'. $imageLoc .'</image:loc><image:title>'.$imageTitle.'</image:title></image:image>';
             $product = Mage::getModel('catalog/product')->load($item->getId());
             $_images=$product->getMediaGalleryImages();
             foreach($_images as $image):

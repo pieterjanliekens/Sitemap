@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Hans2103_Sitemap>
-      <version>0.2.0</version>
+      <version>0.3.0</version>
     </Hans2103_Sitemap>
   </modules>
   <global>
@@ -14,7 +14,7 @@
       </sitemap>
       <sitemap_resource>
         <rewrite>
-          <catalog_product>Hans2103_Sitemap_Model_Resource_Catalog_Product</catalog_product>	
+          <catalog_product>Hans2103_Sitemap_Model_Resource_Catalog_Product</catalog_product>
         </rewrite>
       </sitemap_resource>
     </models>

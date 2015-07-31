@@ -58,9 +58,6 @@ class Hans2103_Sitemap_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
         $storeId = $this->getStoreId();
         $date    = Mage::getSingleton('core/date')->gmtDate('Y-m-d');
         $baseUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
-        // Hans2103 change -> set mediaUrl
-        $mediaUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
-        $mediaUrl = preg_replace('/^https/', 'http', $mediaUrl); 
 
         /**
          * Generate categories sitemap
@@ -69,7 +66,8 @@ class Hans2103_Sitemap_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
         $priority   = (string)Mage::getStoreConfig('sitemap/category/priority', $storeId);
         $collection = Mage::getResourceModel('sitemap/catalog_category')->getCollection($storeId);
         foreach ($collection as $item) {
-            $xml = sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>' . "\n",
+            $xml = sprintf(
+                '<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>' . "\n",
                 htmlspecialchars($baseUrl . $item->getUrl()),
                 $date,
                 $changefreq,
@@ -89,20 +87,30 @@ class Hans2103_Sitemap_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
         $priority   = (string)Mage::getStoreConfig('sitemap/product/priority', $storeId);
         $collection = Mage::getResourceModel('sitemap/catalog_product')->getCollection($storeId);
         foreach ($collection as $item) {
-            $xml = sprintf('<url><loc>%s</loc><image:image><image:loc>%s</image:loc><image:title>%s</image:title></image:image><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority><PageMap xmlns="http://www.google.com/schemas/sitemap-pagemap/1.0"><DataObject type="thumbnail"><Attribute name="name" value="%s"/><Attribute name="src" value="%s"/></DataObject></PageMap></url>' . "\n",
-                htmlspecialchars($baseUrl . $item->getUrl()),
-                htmlspecialchars($mediaUrl .'catalog/product'. $item->getMedia()),
-                htmlspecialchars($item->getName()),
-                $date,
-                $changefreq,
-                $priority,
-                htmlspecialchars($item->getName()),
-                htmlspecialchars($mediaUrl .'catalog/product'. $item->getMedia())
-            );
+
+            $image      = Mage::getResourceModel('catalog/product')->getAttributeRawValue($item->getId(), 'image', $storeId);
+            $imageLoc   = '';
+            $imageTitle = '';
+
+            if ($image)
+            {
+                $imageLoc = str_replace('index.php/','',Mage::getURL('media/catalog/product').substr($image,1));
+                $imageTitle = htmlspecialchars(Mage::getResourceModel('catalog/product')->getAttributeRawValue($item->getId(), 'name', $storeId));
+            }
+
+            $xml  = '<url><loc>'.htmlspecialchars($baseUrl . $item->getUrl()).'</loc>';
+            $xml .= '<image:image><image:loc>'. $imageLoc .'</image:loc><image:title>'.$imageTitle.'</image:title></image:image>';
+            $product = Mage::getModel('catalog/product')->load($item->getId());
+            $_images=$product->getMediaGalleryImages();
+            foreach($_images as $image):
+                $xml.='<image:image><image:loc>'. $image->getUrl().'</image:loc></image:image>';
+            endforeach;
+            unset($product);
+            $xml.= '<lastmod>'.$date.'</lastmod><changefreq>'.$changefreq.'</changefreq><priority>'.$priority.'</priority></url>' . "\n";
+
             $io->streamWrite($xml);
         }
         unset($collection);
-
         /**
          * Generate cms pages sitemap
          */
@@ -110,7 +118,8 @@ class Hans2103_Sitemap_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
         $priority   = (string)Mage::getStoreConfig('sitemap/page/priority', $storeId);
         $collection = Mage::getResourceModel('sitemap/cms_page')->getCollection($storeId);
         foreach ($collection as $item) {
-            $xml = sprintf('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>' . "\n",
+            $xml = sprintf(
+                '<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>' . "\n",
                 htmlspecialchars($baseUrl . $item->getUrl()),
                 $date,
                 $changefreq,

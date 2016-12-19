@@ -1,0 +1,17 @@
+{
+  "name": "hans2103/sitemap",
+  "license": "GPL-3.0",
+  "type": "magento-module",
+  "description": "Magento extension to expand sitemap.xml with reference to location or productimages",
+  "homepage": "https://github.com/hans2103/Sitemap",
+  "require": {
+    "magento-hackathon/magento-composer-installer": "*"
+  },
+  "authors": [
+    {
+      "name": "Hans Kuijpers",
+      "email": "support@hkweb.nl",
+      "role": "Author/Maintainer"
+    }
+  ]
+}

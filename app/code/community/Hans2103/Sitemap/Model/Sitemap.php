@@ -83,36 +83,38 @@ class Hans2103_Sitemap_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
         /**
          * Hans2103 override to include images in sitemap
          */
-        $changefreq = (string)Mage::getStoreConfig('sitemap/product/changefreq', $storeId);
-        $priority   = (string)Mage::getStoreConfig('sitemap/product/priority', $storeId);
-        $collection = Mage::getResourceModel('sitemap/catalog_product')->getCollection($storeId);
-        foreach ($collection as $item) {
+	    $changefreq = (string) Mage::getStoreConfig('sitemap/product/changefreq', $storeId);
+	    $priority   = (string) Mage::getStoreConfig('sitemap/product/priority', $storeId);
+	    $collection = Mage::getResourceModel('sitemap/catalog_product')->getCollection($storeId);
+	    foreach ($collection as $item)
+	    {
 
 
-            $xml  = '<url><loc>'.htmlspecialchars($baseUrl . $item->getUrl()).'</loc>';
+		    $xml = '<url><loc>' . htmlspecialchars($baseUrl . $item->getUrl()) . '</loc>';
 
-            $image      = Mage::getResourceModel('catalog/product')->getAttributeRawValue($item->getId(), 'image', $storeId);
-            $imageLoc   = '';
-            $imageTitle = '';
+		    $image      = Mage::getResourceModel('catalog/product')->getAttributeRawValue($item->getId(), 'image', $storeId);
+		    $imageLoc   = '';
+		    $imageTitle = '';
 
-            if ($image)
-            {
-                $imageLoc = str_replace('index.php/','',Mage::getURL('media/catalog/product').substr($image,1));
-                $imageTitle = htmlspecialchars(Mage::getResourceModel('catalog/product')->getAttributeRawValue($item->getId(), 'name', $storeId));
-                $xml .= '<image:image><image:loc>'. $imageLoc .'</image:loc><image:title>'.$imageTitle.'</image:title></image:image>';
-            }
+		    if ($image)
+		    {
+			    $imageLoc   = str_replace('index.php/', '', Mage::getURL('media/catalog/product') . substr($image, 1));
+			    $imageTitle = htmlspecialchars(Mage::getResourceModel('catalog/product')->getAttributeRawValue($item->getId(), 'name', $storeId));
+			    $xml        .= '<image:image><image:loc>' . $imageLoc . '</image:loc><image:title>' . $imageTitle . '</image:title></image:image>';
+		    }
 
-            $product = Mage::getModel('catalog/product')->load($item->getId());
-            $_images=$product->getMediaGalleryImages();
-            foreach($_images as $image):
-                $xml.='<image:image><image:loc>'. $image->getUrl().'</image:loc></image:image>';
-            endforeach;
-            unset($product);
-            $xml.= '<lastmod>'.$date.'</lastmod><changefreq>'.$changefreq.'</changefreq><priority>'.$priority.'</priority></url>' . "\n";
+		    $product = Mage::getModel('catalog/product')->load($item->getId());
+		    $_images = $product->getMediaGalleryImages();
+		    foreach ($_images as $image):
+			    if ($image->getUrl() == $imageLoc) continue;
+			    $xml .= '<image:image><image:loc>' . $image->getUrl() . '</image:loc></image:image>';
+		    endforeach;
+		    unset($product);
+		    $xml .= '<lastmod>' . $date . '</lastmod><changefreq>' . $changefreq . '</changefreq><priority>' . $priority . '</priority></url>' . "\n";
 
-            $io->streamWrite($xml);
-        }
-        unset($collection);
+		    $io->streamWrite($xml);
+	    }
+	    unset($collection);
         /**
          * Generate cms pages sitemap
          */

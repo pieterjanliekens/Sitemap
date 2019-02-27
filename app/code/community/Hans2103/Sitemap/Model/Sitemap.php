@@ -100,6 +100,7 @@ class Hans2103_Sitemap_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
 		    {
 			    $imageLoc   = str_replace('index.php/', '', Mage::getURL('media/catalog/product') . substr($image, 1));
 			    $imageTitle = htmlspecialchars(Mage::getResourceModel('catalog/product')->getAttributeRawValue($item->getId(), 'name', $storeId));
+			    $imageTitle = strip_tags(preg_replace("/&(?!#?[a-z0-9]+;)/", "&amp;",$imageTitle));
 			    $xml        .= '<image:image><image:loc>' . $imageLoc . '</image:loc><image:title>' . $imageTitle . '</image:title></image:image>';
 		    }
 

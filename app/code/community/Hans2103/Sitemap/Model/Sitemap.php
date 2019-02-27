@@ -73,6 +73,35 @@ class Hans2103_Sitemap_Model_Sitemap extends Mage_Sitemap_Model_Sitemap
                 $changefreq,
                 $priority
             );
+		
+		    $ret = "";
+    $current;
+    if (empty($xml)) 
+    {
+        return $ret;
+    }
+
+    $length = strlen($xml);
+    for ($i=0; $i < $length; $i++)
+    {
+        $current = ord($xml{$i});
+        if (($current == 0x9) ||
+       		($current == 0x0) ||
+            ($current == 0xA) ||
+            ($current == 0xD) ||
+            (($current >= 0x20) && ($current <= 0xD7FF)) ||
+            (($current >= 0xE000) && ($current <= 0xFFFD)) ||
+            (($current >= 0x10000) && ($current <= 0x10FFFF)))
+        {
+            $ret .= chr($current);
+        }
+        else
+        {
+  	          $ret .= " ";
+  	      }
+ 	   }
+  	  return $ret;
+
             $io->streamWrite($xml);
         }
         unset($collection);
